@@ -1,0 +1,36 @@
+﻿@page "/"
+@inject IJSRuntime JS
+
+<div id="jumboIndex" class="jumbotron">
+    <h1 id="display" class="display-4">Welcome!</h1>
+    <p class="lead">Internal project managment application for WoodLine Interiors.</p>
+    <hr class="my-4">
+
+    <p class="lead">
+        <a class="btn btn-primary btn-md" href="/Help" role="button">Learn more</a>
+    </p>
+</div>
+    <br>
+    <hr>
+    <br>
+    <div class="container-fluid float-left">
+        <h3>Quick Access to Project Phases</h3>
+        <a class=" btn btn-primary mt-3 mr-2 " href="drawing"> <span class="oi oi-pencil"></span> Drawing</a>
+        <a class=" btn btn-primary mt-3 mr-2 " href="estimate"><span class="oi oi-timer"></span> Estimate</a>
+        <a class=" btn btn-primary mt-3 mr-2 " href="status"><span class="oi oi-browser"></span> Status</a>
+        <a class=" btn btn-primary mt-3 mr-2 " href="downpayment"><span class="oi oi-dollar"></span> Down Payment</a>
+        <a class=" btn btn-primary mt-3 mr-2 " href="execution"><span class="oi oi-puzzle-piece"></span> Execution</a>
+        <a class=" btn btn-primary mt-3 mr-2 " href="material"><span class="oi oi-signpost"></span> Material</a>
+        <a class=" btn btn-primary mt-3 mr-2 " href="fabrication"><span class="oi oi-paperclip"></span> Fabrication</a>
+        <a class=" btn btn-primary mt-3 mr-2 " href="readytodeliver"><span class="oi oi-check"></span> Ready To Deliver</a>
+        <a class=" btn btn-primary mt-3 mr-2 " href="installation"><span class="oi oi-media-play"></span> Installation</a>
+        <a class=" btn btn-primary mt-3 mr-2 " href="finalpayment"><span class="oi oi-credit-card"></span> Final Payment</a>
+    </div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await JS.InvokeVoidAsync("isLogin");
+    }
+
+}

@@ -1,0 +1,78 @@
+﻿@page "/employees"
+@inject IJSRuntime JS;
+
+<div class="card">
+	<div class="card-header" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">
+		<div class=" float-right align-middle">
+
+			<a class=" btn btn-primary" href="addEmployee">Add New</a>
+
+		</div>
+		<h4 class="d-inline align-middle text-white"> &nbsp;Employees</h4>
+	</div>
+	<div class="card-body">
+		<div class="table-responsive">
+			<table id="employeeTable" class="table table-hover">
+
+				<thead>
+					<tr>
+
+						<th scope="col">Name</th>
+						<th scope="col">Email</th>
+						<th scope="col">City</th>
+						<th scope="col">State</th>
+						<th scope="col">Zip</th>
+						<th scope="col">Address</th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+
+			</table>
+			
+
+		</div>
+	</div>
+</div>
+
+
+
+	<div class="modal" tabindex="-1" id="deleteModal" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">Warning</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					Are you sure to delete the employee?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+					<button type="button" class="btn btn-danger" onclick="DeleteEmployee()">Yes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+@code {
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			await JS.InvokeVoidAsync("getEmployeesFromFirebase");
+		}
+
+	}
+	protected override async Task OnInitializedAsync()
+	{
+		await JS.InvokeVoidAsync("isLogin");
+	}
+
+}

@@ -1,0 +1,27 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime JS;
+<div class="sidebar">
+	<NavMenu />
+</div>
+
+<div class="main">
+	<div class="top-row px-4">
+		<p class="ml-md-auto">@user | <a href="logout">logout</a></p>
+	</div>
+
+	<div class="content px-4">
+		@Body
+	</div>
+</div>
+
+
+@code{ 
+
+	public string user { get; set; }
+	protected override async Task OnInitializedAsync()
+	{
+
+		user = await JS.InvokeAsync<string>("getUserInfo");
+
+	}
+}

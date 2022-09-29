@@ -1,0 +1,147 @@
+﻿@page "/chat"
+@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JS;
+@implements IAsyncDisposable
+@*<div class="form-group">
+		<label>
+			User:
+			<input @bind="userInput" />
+		</label>
+	</div>
+	<div class="form-group">
+		<label>
+			Message:
+			<input @bind="messageInput" size="50" />
+		</label>
+	</div>
+	<button @onclick="Send" disabled="@(!IsConnected)">Send</button>
+
+	<hr>
+
+	<ul id="messagesList">
+		@foreach (var message in messages)
+		{
+			<li>@message</li>
+		}
+	</ul>*@
+<div class="container-fluid" style="height:1100px; overflow:auto;">
+	<div id="scrollbox" style=" overflow-x: hidden;">
+		<h1>@testing</h1>
+		@foreach (var item in messages)
+		{
+			<div class="@item.CSS">
+				<div class="user">@item.Username</div>
+				<div class="msg">@item.Body</div>
+			</div>
+		}
+	</div>
+</div>
+
+<div class="form-row" style="position:fixed; bottom:0; height:80px; width:75%; background-color:white; align-items:center">
+	<hr />
+	<div class="col-md-10">
+		<input type="text" class="form-control" @bind="@messageInput" placeholder="Message">
+	</div>
+
+	<div class="col-md-2">
+		<button @onclick="Send" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);" class="btn btn-primary btn-block">Send</button>
+	</div>
+</div>
+@*<textarea class="form-control" placeholder="enter your comment" @bind="@messageInput"></textarea>
+	<button class="btn btn-outline-primary" @onclick="Send">Send</button>*@
+
+@code {
+	private HubConnection hubConnection;
+	private List<Message> messages = new List<Message>();
+	private string userInput;
+	private string messageInput;
+
+	private string testing;
+
+	protected override async Task OnInitializedAsync()
+	{
+
+		await JS.InvokeVoidAsync("isLogin");
+		userInput = await JS.InvokeAsync<string>("getUserInfo");
+
+
+
+
+		var chat = await JS.InvokeAsync <Message[]>("getChatFromFirebase");
+
+
+		bool isMine = false;
+
+		foreach (var i in chat)
+		{
+			isMine = string.Equals(i.Username, userInput, StringComparison.CurrentCultureIgnoreCase);
+			var newMsg = new Message(i.Username, i.Body, isMine);
+			messages.Add(newMsg);
+
+		}
+
+
+		StateHasChanged();
+
+		hubConnection = new HubConnectionBuilder()
+	.WithUrl(NavigationManager.ToAbsoluteUri("/chathub"))
+	.Build();
+
+		hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
+		{
+			bool isMine = false;
+			if (!string.IsNullOrWhiteSpace(user))
+			{
+				isMine = string.Equals(user, userInput, StringComparison.CurrentCultureIgnoreCase);
+			}
+
+			var newMsg = new Message(user, message, isMine);
+			messages.Add(newMsg);
+			StateHasChanged();
+		});
+
+		await hubConnection.StartAsync();
+	}
+
+	async Task Send()
+	{
+		await JS.InvokeVoidAsync("saveChatToFirebase", userInput, messageInput);
+		await hubConnection.SendAsync("SendMessage", userInput, messageInput);
+		messageInput = "";
+	}
+
+	public bool IsConnected =>
+		 hubConnection.State == HubConnectionState.Connected;
+
+	public async ValueTask DisposeAsync()
+	{
+		await hubConnection.DisposeAsync();
+	}
+
+
+	class Message
+	{
+		public Message(string username, string body, bool mine)
+		{
+			Username = username;
+			Body = body;
+			Mine = mine;
+		}
+
+		public string Username { get; set; }
+		public string Body { get; set; }
+		public bool Mine { get; set; }
+
+		/// <summary>
+		/// Determine CSS classes to use for message div
+		/// </summary>
+		public string CSS
+		{
+			get
+			{
+				return Mine ? "sent" : "received";
+			}
+		}
+	}
+}

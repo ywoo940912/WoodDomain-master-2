@@ -1,0 +1,79 @@
+﻿@page "/editemployee/{id}"
+@inject IJSRuntime JS;
+
+
+
+<form @onsubmit="uploadEmployee">
+	<div class="card">
+		<div class="card-header" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">
+			<h5 class="text-white">Edit Employee</h5>
+		</div>
+		
+		<div class="card-body">
+
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="inputEmail4">First Name</label>
+					<input type="text" class="form-control" id="empFirstName" placeholder="First Name" required>
+				</div>
+				<div class="form-group col-md-6">
+					<label for="inputPassword4">Last Name</label>
+					<input type="text" class="form-control" id="empLastName" placeholder="Last Name" required>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="inputEmail4">Email</label>
+					<input type="email" class="form-control" id="empEmail" placeholder="Email" required>
+				</div>
+				<div class="form-group col-md-6">
+					<label for="inputPassword4">City</label>
+					<input type="text" class="form-control" id="empCity" placeholder="City" required>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="inputEmail4">State</label>
+					<input type="text" class="form-control" id="empState" placeholder="State" required>
+				</div>
+				<div class="form-group col-md-6">
+					<label for="inputPassword4">Zip Code</label>
+					<input type="text" class="form-control" id="empZIP" placeholder="Zip Code" required>
+				</div>
+			</div>
+
+			<div class="form-row">
+				<div class="form-group col-md-12">
+					<label for="inputEmail4">Address</label>
+					<textarea class="form-control" id="empAddress" required></textarea>
+				</div>
+			</div>
+			<button id="submitButton" type="submit" class="btn btn-primary float-right" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);" >Save</button>
+		</div>
+	</div>
+</form>
+
+
+@code { 
+	[Parameter]
+	public string Id { get; set; }
+
+	async Task uploadEmployee()
+	{
+		await JS.InvokeVoidAsync("uploadEmployeeToFirebase", Id);
+
+	}
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+
+		if (firstRender)
+		{
+			await JS.InvokeVoidAsync("getEmployeeFromFirebaseById", Id);
+		}
+
+	}
+	protected override async Task OnInitializedAsync()
+	{
+		await JS.InvokeVoidAsync("isLogin");
+	}
+}

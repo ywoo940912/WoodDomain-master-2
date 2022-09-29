@@ -1,0 +1,45 @@
+﻿@page "/customer"
+@inject IJSRuntime JS;
+
+
+<h3>Add Customers</h3>
+
+First Name:
+<br />
+<textarea id="cusFirstName"></textarea>
+<br />
+Last Name:
+<br />
+<textarea id="cusLastName"></textarea>
+<br />
+Email:
+<br />
+<textarea id="cusEmail"></textarea>
+<br />
+Address:
+<br />
+<textarea id="cusAddress"></textarea>
+<br />
+City:
+<br />
+<textarea id="cusCity"></textarea>
+<br />
+State:
+<br />
+<textarea id="cusState"></textarea>
+<br />
+ZIP Code:
+<br />
+<textarea id="cusZIP"></textarea>
+<br />
+<button id="submitButton" @onclick="uploadCustomer">Submit</button>
+
+@code {
+
+    async Task uploadCustomer()
+    {
+        var nextID = await JS.InvokeAsync<int>("getNextCustomerID");
+        await JS.InvokeVoidAsync("uploadCustomerToFirebase", nextID);
+        await JS.InvokeVoidAsync("updateNextCustomerID", nextID + 1);
+    }
+}

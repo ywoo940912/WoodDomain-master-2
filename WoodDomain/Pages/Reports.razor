@@ -1,0 +1,168 @@
+﻿@page "/reports"
+@inject IJSRuntime JS;
+
+<div class= "row"> 
+	<div class= "col border-right">
+		<h1>Accepted vs Rejected Project</h1>
+    	<div class="row">
+			<div class="col-md-10 col-sm-10 p-4">
+				<RadzenChart>
+					<RadzenPieSeries Data="@CompletionTable" Title="CompletionTable" CategoryProperty="Approval" ValueProperty="CompletionTable" />
+				</RadzenChart>
+			</div>
+    	</div>
+	</div>
+	<div class = "col">
+		<h1>On-time vs Delayed Project</h1>
+		<div class="row">
+			<div class="col-md-10 col-sm-10 p-4">
+				<RadzenChart>
+					<RadzenPieSeries Data="@DelayTable" Title="DelayTable" CategoryProperty="Delay" ValueProperty="DelayTable" />
+				</RadzenChart>
+			</div>
+    	</div>
+	</div>
+</div>
+<hr>
+<form @onsubmit="showModal">
+    <div class="card ml-3" style="width:45%">
+        <div class="card-header" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">
+            <h5 class="text-white">Manual Update Stats</h5>
+        </div>
+
+        <div class="card-body">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="reportsAccepted">Accepted</label>
+                    <input type="number" class="form-control" id="reportsAccepted" placeholder="0" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="reportsRejected">Rejected</label>
+                    <input type="number" class="form-control" id="reportsRejected" placeholder="0" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="reportsOnTime">On Time</label>
+                    <input type="number" class="form-control" id="reportsOnTime" placeholder="0" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="reportsDelayed">Delayed</label>
+                    <input type="number" class="form-control" id="reportsDelayed" placeholder="0" required>
+                </div>
+            </div>
+            <button id="submitButton" type="submit" class="btn btn-primary float-right" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">Update</button>
+        </div>
+    </div>
+</form>
+
+<div class="modal" tabindex="-1" id="updateStatsModal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Warning</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure to update the Stats?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-danger" @onclick="updateStats">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    static double delayed;
+    static double onTime;
+    static double accepted;
+    static double rejected;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await getStats();
+        await JS.InvokeVoidAsync("isLogin");
+    }
+
+    public async Task getStats()
+    {
+        delayed = int.Parse(await JS.InvokeAsync<string>("getNumberOfDelayedProjects"));
+        onTime = int.Parse(await JS.InvokeAsync<string>("getNumberOfOnTimeProjects"));
+        accepted = int.Parse(await JS.InvokeAsync<string>("getNumberOfAcceptedProjects"));
+        rejected = int.Parse(await JS.InvokeAsync<string>("getNumberOfRejectedProjects"));
+        CompletionTable[0] = new DataItem
+        {
+            Approval = "Approved",
+            CompletionTable = accepted
+        };
+        CompletionTable[1] = new DataItem
+        {
+            Approval = "Rejected",
+            CompletionTable = rejected
+        };
+        DelayTable[0] = new DataItem
+        {
+            Delay = "On-time",
+            DelayTable = onTime
+        };
+        DelayTable[1] = new DataItem
+        {
+            Delay = "Delayed",
+            DelayTable = delayed
+        };
+    }
+
+    public async Task showModal()
+    {
+        await JS.InvokeVoidAsync("ReportUpdateStatsConfirmation");
+    }
+
+    public async Task updateStats()
+    {
+        await JS.InvokeVoidAsync("updateReportStats");
+        await getStats();
+    }
+
+    class DataItem
+    {
+
+        public string Approval { get; set; }
+
+        public string Delay { get; set; }
+        public double CompletionTable { get; set; }
+        public double DelayTable { get; set; }
+    }
+
+
+    DataItem[] CompletionTable = new DataItem[] {
+        new DataItem
+        {
+        Approval = "Approved",
+        CompletionTable = accepted
+        },
+        new DataItem
+        {
+        Approval = "Rejected",
+        CompletionTable = rejected
+        }
+    };
+
+    DataItem[] DelayTable = new DataItem[] {
+        new DataItem
+        {
+        Delay = "On-time",
+        DelayTable = onTime
+        },
+        new DataItem
+        {
+        Delay = "Delayed",
+        DelayTable = delayed
+        }
+    };
+
+
+
+}

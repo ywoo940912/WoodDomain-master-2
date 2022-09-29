@@ -1,0 +1,158 @@
+@page "/Help"
+@inject IJSRuntime JS
+@using Radzen
+
+<div class="jumbotron">
+	<h1 class="display-4">Help Page</h1>
+	<p class="lead">Page will consist of FAQ and General Tips</p>
+</div>
+
+<div class="row">
+        <div class="col-xl-12">
+        <RadzenTabs style="height: 880px">
+            <Tabs>
+                <RadzenTabsItem Text="FAQ">
+                    <div class="row">
+                        <div class="col-xl-6">
+            
+                            <RadzenAccordion Multiple="true" >
+                                <Items>
+                                    <RadzenAccordionItem Text="Where do I edit customer informaiton?" Icon="account_balance_wallet">
+                                        Under the employee information tab, you can edit and create create customers.
+                                    </RadzenAccordionItem>
+                                    <RadzenAccordionItem id = "accorItem" Text="Where do I edit employee information?" Icon="account_box">
+                                        Under the employee information tab, you can edit and create employees.
+                                    </RadzenAccordionItem>
+                                    <RadzenAccordionItem id = "accorItem" Text="Who do I contact if there is an issue with the website?" Icon="accessibility">
+                                        Please contact woodlineDomainTech@gmail.com
+                                    </RadzenAccordionItem>
+                                </Items>
+                            </RadzenAccordion>
+                            <br />
+                        </div> 
+                    </div>
+
+                </RadzenTabsItem>
+                <RadzenTabsItem Text="Tutorials">
+
+
+                            <RadzenAccordion Multiple="true" >
+                                <Items>
+                                    <RadzenAccordionItem Text="How to add new employee?" Icon="person_add">
+                                        <div class = "container-fluid" style = "overflow:auto;">
+                                            <div class= "row">
+                                                 <div class="col-xl">
+                                                    <img style = "width:1000px; height:auto" src="css/Images/addNewEmp.png">
+                                                </div>
+                                                <div class="col-xl">
+                                                    <img style = "width:1000px; height:auto"src = "css/Images/saveNewEmp.png">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </RadzenAccordionItem>
+
+                                    <RadzenAccordionItem id = "accorItem" Text="How to add new customer?" Icon="person_add_alt">
+                                        <div class = "container-fluid" style = "overflow:auto;">
+                                            <div class = "row">
+                                                <div class="col-xl">
+                                                    <img style = "width:1000px; height:auto" src="css/Images/addNewCus.png">
+                                                </div>
+                                                <div class="col-xl">
+                                                    <img style = "width:1000px; height:auto"src = "css/Images/saveNewCus.png">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </RadzenAccordionItem>
+
+                                    <RadzenAccordionItem id = "accorItem" Text="How to add a project?" Icon="add_circle_outline">
+                                        <div class = "container-fluid" style = "overflow:auto;">
+                                            <div class = "row">
+                                                <div class="col-xl">
+                                                    <img style = "width:1000px; height:auto" src="css/Images/addproject.png">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </RadzenAccordionItem>
+
+                                    <RadzenAccordionItem id = "accorItem" Text="How to move a project to the next phase?" Icon="trending_flat">
+                                        <div class = "container-fluid" style = "overflow:auto;">
+                                            <div class = "row">
+                                                <div class="col-xl">
+                                                    <img style = "width:1000px; height:auto" src="css/Images/nextPhase.png">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </RadzenAccordionItem>
+
+                                    <RadzenAccordionItem id = "accorItem" Text="How to edit and delete customers/employees/projects?" Icon="tune">
+                                        <div class = "container-fluid" style = "overflow:auto;">
+                                            <div class = "row">
+                                                <div class="col-xl">
+                                                    <h4>The delete & edit buttons are shared between the customers, employees, and projects tables.</h4>
+                                                    <img style = "width:1000px; height:auto" src="css/Images/editDelete.png">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </RadzenAccordionItem>
+
+                                    <RadzenAccordionItem id = "accorItem" Text="Project phase buttons" Icon="assistant_direction">
+                                        <div class = "container-fluid" style = "overflow:auto;">
+                                            <div class = "row">
+                                                <div class="col-xl">
+                                                    <h4>This panel of buttons will provide instant access to the table of the corresponding phase.</h4>
+                                                    <img style = "width:1000px; height:auto" src="css/Images/projectPhases.png">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </RadzenAccordionItem>
+                                </Items>
+                            </RadzenAccordion>
+
+                </RadzenTabsItem>
+                <RadzenTabsItem Text="Contact Us">
+                    <RadzenAccordion Multiple="true" >
+                                <Items>
+                                    <RadzenAccordionItem Text="Via Telephone" Icon="call">
+                                        (678)-000-0000
+                                    </RadzenAccordionItem>
+                                    <RadzenAccordionItem id = "accorItem" Text="Via Email" Icon="email">
+                                        woodlineDomain@gmail.com
+                                    </RadzenAccordionItem>
+                                    <RadzenAccordionItem id = "accorItem" Text="Drop by in person" Icon="map">
+                                        1234 woodDomain Place, Woodstock GA
+                                    </RadzenAccordionItem>
+                                </Items>
+                            </RadzenAccordion>
+                </RadzenTabsItem>
+            </Tabs>
+        </RadzenTabs>
+        </div>
+        
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@code {
+	
+	protected override async Task OnInitializedAsync()
+	{
+		await JS.InvokeVoidAsync("isLogin");
+	}
+}

@@ -1,0 +1,392 @@
+﻿@page "/projects"
+@inject IJSRuntime JS
+
+
+<h3> Project Phase Selection </h3>
+<a class=" btn btn-primary mt-3 mr-2 " href="drawing"> <span class="oi oi-pencil"></span> Drawing</a>
+<a class=" btn btn-primary mt-3 mr-2 " href="estimate"><span class="oi oi-timer"></span> Estimate</a>
+<a class=" btn btn-primary mt-3 mr-2 " href="status"><span class="oi oi-browser"></span> Status</a>
+<a class=" btn btn-primary mt-3 mr-2 " href="downpayment"><span class="oi oi-dollar"></span> Down Payment</a>
+<a class=" btn btn-primary mt-3 mr-2 " href="execution"><span class="oi oi-puzzle-piece"></span> Execution</a>
+<a class=" btn btn-primary mt-3 mr-2 " href="material"><span class="oi oi-signpost"></span> Material</a>
+<a class=" btn btn-primary mt-3 mr-2 " href="fabrication"><span class="oi oi-paperclip"></span> Fabrication</a>
+<a class=" btn btn-primary mt-3 mr-2 " href="readytodeliver"><span class="oi oi-check"></span> Ready To Deliver</a>
+<a class=" btn btn-primary mt-3 mr-2 " href="installation"><span class="oi oi-media-play"></span> Installation</a>
+<a class=" btn btn-primary mt-3 mr-2 " href="finalpayment"><span class="oi oi-credit-card"></span> Final Payment</a>
+<br />
+<hr>
+
+<br />
+
+
+<div>
+    <div class="container float-left d-flex flex-row flex-nowrap" style="max-width:1250px; overflow-x:auto;">
+            <div class="card mr-2" style="min-width:22rem;">
+                <div class="card-header" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">
+                    <h4 class="d-inline align-middle text-white"> &nbsp;Drawing Phase</h4>
+                </div>
+                <div id="projectCards" class="card-body">
+                    <div class="table">
+                        <table id="DrawingTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Customer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mr-2" style="min-width:22rem;">
+                <div class="card-header" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">
+                    <h4 class="d-inline align-middle text-white"> &nbsp;Estimate Phase</h4>
+                </div>
+                <div id="projectCards" class="card-body">
+                    <div class="table">
+                        <table id="EstimateTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Customer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mr-2" style="min-width:22rem;">
+                <div class="card-header" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">
+                    <h4 class="d-inline align-middle text-white"> &nbsp;Pending</h4>
+                </div>
+                <div id="projectCards" class="card-body">
+                    <div class="table">
+                        <table id="PendingTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Customer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card mr-2" style="min-width:22rem;">
+                <div class="card-header" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">
+                    <h4 class="d-inline align-middle text-white"> &nbsp;Accepted</h4>
+                </div>
+                <div id="projectCards" class="card-body">
+                    <div class="table">
+                        <table id="AcceptedTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Customer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card mr-2" style="min-width:22rem;">
+                <div class="card-header" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">
+                    <h4 class="d-inline align-middle text-white"> &nbsp;Rejected</h4>
+                </div>
+                <div id="projectCards" class="card-body">
+                    <div class="table">
+                        <table id="RejectedTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Customer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mr-2" style="min-width:22rem;">
+                <div class="card-header" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">
+                    <h4 class="d-inline align-middle text-white"> &nbsp;Down Payment Phase</h4>
+                </div>
+                <div id="projectCards" class="card-body">
+                    <div class="table">
+                        <table id="Down PaymentTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Customer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mr-2" style="min-width:22rem;">
+                <div class="card-header" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">
+                    <h4 class="d-inline align-middle text-white"> &nbsp;Execution Phase </h4>
+                </div>
+                <div id="projectCards" class="card-body">
+                    <div class="table">
+                        <table id="ExecutionTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Customer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mr-2" style="min-width:22rem;">
+                <div class="card-header" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">
+                    <h4 class="d-inline align-middle text-white"> &nbsp;Material Phase </h4>
+                </div>
+                <div id="projectCards" class="card-body">
+                    <div class="table">
+                        <table id="MaterialTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Customer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mr-2" style="min-width:22rem;">
+                <div class="card-header" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">
+                    <h4 class="d-inline align-middle text-white"> &nbsp;Fabrication Phase </h4>
+                </div>
+                <div id="projectCards" class="card-body">
+                    <div class="table">
+                        <table id="FabricationTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Customer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mr-2" style="min-width:22rem;">
+                <div class="card-header" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">
+                    <h4 class="d-inline align-middle text-white"> &nbsp;Ready to Deliver Phase </h4>
+                </div>
+                <div id="projectCards" class="card-body">
+                    <div class="table">
+                        <table id="Ready to DeliverTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Customer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mr-2" style="min-width:22rem;">
+                <div class="card-header" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">
+                    <h4 class="d-inline align-middle text-white"> &nbsp;Installation </h4>
+                </div>
+                <div id="projectCards" class="card-body">
+                    <div class="table">
+                        <table id="InstallationTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Customer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mr-2" style="min-width:22rem;">
+                <div class="card-header" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">
+                    <h4 class="d-inline align-middle text-white"> &nbsp;Final Payment </h4>
+                </div>
+                <div id="projectCards" class="card-body">
+                    <div class="table">
+                        <table id="Final PaymentTable" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Customer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</div>
+
+
+<br>
+
+<form @onsubmit="uploadProject">
+    <div class="container-fluid card">
+        <div class="card-header" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">
+            <h5 class="text-white">Add Project</h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="ProjectTitle">Project Title</label>
+                    <input type="text" class="form-control" id="projectTitle" placeholder="Project Title" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="CustomerName">Customer</label>
+                    <input type="text" class="form-control" id="projectCustomer" placeholder="Jane Smith" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="EmployeeAssign">Employee(s) Assigned to Project:</label>
+                    <input type="text" class="form-control" id="projectEmployees" placeholder="John Smith, etc." required>
+                    <!--<select class="form-control" id="projectEmployees" required>
+                        <option></option>
+                    </select>-->
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="projectStatus">Status</label>
+                    <br />
+                    <select class="form-control" id="projectStatus" name="Status">
+                        <option value="Drawing">Drawing</option>
+                        <option value="Estimate">Estimate</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Accepted">Accepted</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Down Payment">Down Payment</option>
+                        <option value="Execution">Execution</option>
+                        <option value="Material">Material</option>
+                        <option value="Fabrication">Fabrication</option>
+                        <option value="Ready to Deliver">Ready to Deliver</option>
+                        <option value="Installation">Installation</option>
+                        <option value="Final Payment">Final Payment</option>
+                    </select>
+
+                </div>
+            </div>
+            Project Description
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <textarea class="form-control" id="projectDescription" rows="5" cols="30"></textarea>
+                </div>
+
+                 <div class="form-group col-md-6">
+                    <label for="estimateDueDate">Estimate Due Date</label>
+                    <input type="date" id="estimateDueDate" name="Estimate Due Date" class="form-control"
+                           value="2021-05-07"
+                           min="2018-01-01" max="2100-12-31" required>
+
+                    <label class = "mt-2" for="installationDate">Installation Date</label>
+                    <br />
+                    <input type="date" id="installationDate" name="Installation Date" class="form-control"
+                           value="2021-05-07"
+                           min="2018-01-01" max="2100-12-31" required>
+                </div>
+            </div>
+            <div class="form-row">
+               
+                <div class="form-group col-md-6">
+                    <label for="projectDeadline">Project Deadline</label>
+                    <br />
+                    <input type="date" id="projectDeadline" name="Project Deadline" class="form-control"
+                           value="2021-05-07"
+                           min="2018-01-01" max="2100-12-31" required>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="projectFile">Upload File</label>
+                    <input type="file" class="form-control-file" id="projectFile" name="projectFile">
+                </div>
+
+            </div>
+            <button id="submitButton" type="submit" class="btn btn-primary float-right" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">Save</button>
+        </div>
+    </div>
+</form>
+
+
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await JS.InvokeVoidAsync("isLogin");
+        await JS.InvokeVoidAsync("getDate");
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+
+            await JS.InvokeVoidAsync("getProjectsFromFirebaseByStatusCardSelect", "Drawing");
+            await JS.InvokeVoidAsync("getProjectsFromFirebaseByStatusCardSelect", "Estimate");
+            await JS.InvokeVoidAsync("getProjectsFromFirebaseByStatusCardSelect", "Pending");
+            await JS.InvokeVoidAsync("getProjectsFromFirebaseByStatusCardSelect", "Accepted");
+            await JS.InvokeVoidAsync("getProjectsFromFirebaseByStatusCardSelect", "Rejected");
+            await JS.InvokeVoidAsync("getProjectsFromFirebaseByStatusCardSelect", "Down Payment");
+            await JS.InvokeVoidAsync("getProjectsFromFirebaseByStatusCardSelect", "Execution");
+            await JS.InvokeVoidAsync("getProjectsFromFirebaseByStatusCardSelect", "Material");
+            await JS.InvokeVoidAsync("getProjectsFromFirebaseByStatusCardSelect", "Fabrication");
+            await JS.InvokeVoidAsync("getProjectsFromFirebaseByStatusCardSelect", "Ready to Deliver");
+            await JS.InvokeVoidAsync("getProjectsFromFirebaseByStatusCardSelect", "Installation");
+            await JS.InvokeVoidAsync("getProjectsFromFirebaseByStatusCardSelect", "Final Payment");
+            //await JS.InvokeVoidAsync("populateEmployeeDropdown");
+        }
+    }
+
+    async Task uploadProject()
+    {
+        var nextID = await JS.InvokeAsync<int>("getNextProjectID");
+        await JS.InvokeVoidAsync("uploadProjectToFirebase", nextID);
+        await JS.InvokeVoidAsync("updateNextProjectID", nextID + 1);
+
+    }
+
+}

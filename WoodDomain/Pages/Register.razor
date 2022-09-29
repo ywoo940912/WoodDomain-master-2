@@ -1,0 +1,77 @@
+﻿@page "/register"
+@layout WoodDomain.Shared.PlainLayout
+@inject IJSRuntime JS;
+
+<div class="container" style="opacity:0.9">
+	<div class="row">
+		<div class="col-lg-4 col-md-6 ml-auto mr-auto">
+			<br />
+			<br />
+			<div class="card">
+				<form class="form" id="account" @onsubmit="register">
+
+					<div class="card-header text-center" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">
+						<br />
+						<br />
+						<br />
+						<h6 class="text-white">Welcome to Wood Domain</h6>
+						<h4 class="text-white">Register</h4>
+					</div>
+					<div class="card-body">
+
+
+						<div class="form-group">
+
+
+							<label for="inputPassword4">Email</label>
+							<input placeholder="username" id="username" type="email" autocomplete="off" class="form-control" required />
+
+
+						</div>
+
+						<div class="form-group">
+
+							<label for="inputPassword4">Password</label>
+							<input placeholder="Password" id="password" type="password" class="form-control" required/>
+
+						</div>
+
+						<div class="form-group">
+
+							<label for="inputConfirmPassword4">Confirm Password</label>
+							<input placeholder="Password" id="cPassword" type="password" class="form-control" required/>
+
+						</div>
+
+						<br />
+						<p class="text-danger" id="message"></p>
+						<div class="text-center">
+							<button type="submit" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);" class="btn btn-primary btn-block">Register</button>
+
+
+
+						</div>
+						<a href="/login">Have an account? Login Here</a>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+@code {
+	async Task register()
+	{
+		await JS.InvokeVoidAsync("signup");
+	}
+	protected override async Task OnInitializedAsync()
+	{
+		await JS.InvokeVoidAsync("redirectToHome");
+	}
+}

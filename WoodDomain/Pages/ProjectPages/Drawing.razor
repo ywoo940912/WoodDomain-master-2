@@ -1,0 +1,118 @@
+﻿@page "/drawing"
+@inject IJSRuntime JS
+
+<a class=" btn btn-primary mt-3 mr-2 " href="drawing"> <span class="oi oi-pencil"></span> Drawing</a>
+<a class=" btn btn-primary mt-3 mr-2 " href="estimate"><span class="oi oi-timer"></span> Estimate</a>
+<a class=" btn btn-primary mt-3 mr-2 " href="status"><span class="oi oi-browser"></span> Status</a>
+<a class=" btn btn-primary mt-3 mr-2 " href="downpayment"><span class="oi oi-dollar"></span> Down Payment</a>
+<a class=" btn btn-primary mt-3 mr-2 " href="execution"><span class="oi oi-puzzle-piece"></span> Execution</a>
+<a class=" btn btn-primary mt-3 mr-2 " href="material"><span class="oi oi-signpost"></span> Material</a>
+<a class=" btn btn-primary mt-3 mr-2 " href="fabrication"><span class="oi oi-paperclip"></span> Fabrication</a>
+<a class=" btn btn-primary mt-3 mr-2 " href="readytodeliver"><span class="oi oi-check"></span> Ready To Deliver</a>
+<a class=" btn btn-primary mt-3 mr-2 " href="installation"><span class="oi oi-media-play"></span> Installation</a>
+<a class=" btn btn-primary mt-3 mr-2 " href="finalpayment"><span class="oi oi-credit-card"></span> Final Payment</a>
+
+<br />
+<br />
+<br />
+
+<div class="card">
+    <div class="card-header" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">
+        <div class=" float-right align-middle">
+
+            <a class=" btn btn-primary" href="projects">Add New</a>
+
+        </div>
+        <h4 class="d-inline align-middle text-white"> &nbsp;Drawing Phase</h4>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="DrawingTable" class="table table-hover">
+
+                <thead>
+                    <tr>
+
+                        <th scope="col">Title</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Employees Assigned</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Estimate Due Date</th>
+                        <th scope="col">Installation Date</th>
+                        <th scope="col">Deadline</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+
+            </table>
+
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="deleteModal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Warning</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure to delete the project?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-danger" @onclick="deleteProject">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1" id="nextPhaseModal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Warning</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure to move the project to the next phase?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-danger" @onclick="nextPhase">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await JS.InvokeVoidAsync("isLogin");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("getProjectsFromFirebaseByStatus", "Drawing");
+        }
+    }
+    async Task deleteProject()
+    {
+        await JS.InvokeVoidAsync("DeleteProject");
+        await JS.InvokeVoidAsync("getProjectsFromFirebaseByStatus", "Drawing");
+    }
+    async Task nextPhase()
+    {
+        await JS.InvokeVoidAsync("moveProjectToPhase", "Estimate");
+        await JS.InvokeVoidAsync("getProjectsFromFirebaseByStatus", "Drawing");
+    }
+}

@@ -1,0 +1,34 @@
+﻿@page "/fileoverview/{id}"
+@inject IJSRuntime JS
+
+<h3>File Overview</h3>
+<form>
+    <div class="card" style="width:55%">
+        <div class="card-header" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">
+            <h5 class="text-white">Upload File</h5>
+        </div>
+        <div class="card-body">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <input type="file" class="form-control" id="projectFile" name="projectFile" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <button class="form-control" id="fileDownload" name="fileDownload">Download File</button>
+                </div>
+            </div>
+            <button id="submitButton" type="submit" class="btn btn-primary float-right" style="background-image: linear-gradient( 180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">Save</button>
+        </div>
+    </div>
+</form>
+
+
+@code {
+
+    [Parameter]
+    public string Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await JS.InvokeVoidAsync("isLogin");
+    }
+}
